@@ -1,0 +1,29 @@
+syntax = "proto3";
+import "BoundingBox.proto";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+enum CoarseDetectionType {
+  UNKNOWN = 0;
+  US_SPEED_SIGN = 1;
+  STOP_SIGN = 2;
+  VEHICLE_INSIDE_LANE = 3;
+  VEHICLE_OUTSIDE_LANE = 4;
+  CANADA_SPEED_SIGN = 5;
+  VIENNA_SPEED_SIGN = 6;
+  ISRAEL_STOP_SIGN = 7;
+  QUEBEC_STOP_SIGN = 8;
+  MEXICO_ALTO_STOP_SIGN = 9;
+  BRAZIL_PARE_STOP_SIGN = 10;
+}
+
+message CoarseModeDetection {
+  BoundingBox boundingBox = 1;
+  CoarseDetectionType detectionType = 2;
+}

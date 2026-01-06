@@ -1,0 +1,27 @@
+syntax = "proto3";
+import "BoundingBox.proto";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+message HandDetection {
+  enum HandClass {
+    CALLING = 0;
+    SMOKING = 1;
+    DRINKING = 2;
+    NORMAL = 3;
+    TEXTING = 4;
+  }
+
+  BoundingBox boundingBox = 1;
+  bool isDriver = 2;
+  HandClass handClass = 3;
+  float confidence = 4; // between 0 and 1
+}
+
+

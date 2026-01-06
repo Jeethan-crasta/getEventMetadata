@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+// Please increment version in EventMetadataInfo if any change in this file and pass proper footerLength
+message EventMetadataFooter {
+  uint32 locFileOffset = 1;
+  uint32 accFileOffset = 2;
+}

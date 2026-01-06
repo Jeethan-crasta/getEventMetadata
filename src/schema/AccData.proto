@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+message AccData {
+  uint64 timestamp = 1;
+
+  float x = 2;
+  float y = 3;
+  float z = 4;
+
+  float globalAccForward = 5;
+  float globalAccLateral = 6;
+
+  float filteredGlobalAccForward = 7;
+  float filteredGlobalAccLateral = 8;
+
+  float filteredPitch = 9;
+  float filteredRoll = 10;
+
+  float speed = 11;
+}

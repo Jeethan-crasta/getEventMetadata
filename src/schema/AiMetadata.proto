@@ -1,0 +1,32 @@
+syntax = "proto3";
+import "BoundingBox.proto";
+import "CoarseModeDetection.proto";
+import "FineModeDetection.proto";
+import "LaneDetection.proto";
+import "PoseDetection.proto";
+import "DrowsinessDetection.proto";
+import "HandDetection.proto";
+import "FaceDetection.proto";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+message AiMetadata {
+  uint64 timestamp = 1;
+  LaneDetection laneDetection = 2;
+  repeated CoarseModeDetection coarseSignDetections = 3;
+  repeated CoarseModeDetection coarseVehicleDetection = 4;
+  FineModeDetection trafficLightFineModeDetection = 5;
+  FineModeDetection stopSignFineModeDetection = 6;
+  FineModeDetection speedSignFineModeDetection = 7;
+  repeated BoundingBox vehicleLicenseRoi = 8;
+  float ttc = 9;
+  FaceDetection faceDetection = 10;
+  PoseDetection poseDetection = 11;
+  DrowsinessDetection drowsinessDetection = 12;
+  repeated HandDetection handDetection = 13;
+}

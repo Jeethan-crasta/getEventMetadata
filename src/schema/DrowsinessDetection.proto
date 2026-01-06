@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+message DrowsinessDetection {
+  enum MouthClass {
+    NORMAL = 0;
+    LAUGHING_AND_TALKING = 1;
+    YAWNING = 2;
+  }
+
+  Point rightEye = 1;
+  Point leftEye = 2;
+
+  // variance of the eye points
+  Point rightEyeVariance = 3;
+  Point leftEyeVariance = 4;
+
+  float eyeHeight = 5;
+  float eyeCloseThreshold = 6;
+  optional bool hasSunglasses = 7;
+  float mouthHeight = 8;
+  MouthClass mouthClass = 9;
+}
+
+message Point {
+  float x = 1; // in pixels
+  float y = 2; // in pixels
+}

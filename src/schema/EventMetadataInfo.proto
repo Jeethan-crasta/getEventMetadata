@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+message EventMetadataInfo {
+  uint32 version = 1;
+  uint32 footerLength = 2;
+}

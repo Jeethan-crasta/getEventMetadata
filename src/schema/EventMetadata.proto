@@ -1,0 +1,21 @@
+syntax = "proto3";
+import "EventMetadataInfo.proto";
+import "AiMetadata.proto";
+import "Location.proto";
+import "AccData.proto";
+import "EventMetadataFooter.proto";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+message EventMetadata {
+    EventMetadataInfo info = 1;
+    repeated AiMetadata aiMetaData = 2;
+    repeated Location locationData = 3;
+    repeated AccData accData = 4;
+    EventMetadataFooter footer = 5;
+}

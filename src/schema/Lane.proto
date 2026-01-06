@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+message Lane {
+  int32 slopeLeft = 1;
+  int32 interceptLeft = 2;
+
+  int32 slopeRight = 3;
+  int32 interceptRight = 4;
+}

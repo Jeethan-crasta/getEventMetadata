@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "Lane.proto";
+
+option java_package = "lightmetrics.lib";
+
+/**
+    Please refer to the link below when making any changes to the structure of the message
+    https://developers.google.com/protocol-buffers/docs/proto3#updating
+
+ */
+
+message LaneRollingAverage {
+  Lane lane = 1;
+  int32 laneWidth = 2; // get the correct name from the AI team
+}
