@@ -6,7 +6,9 @@ export function errorHandler(
   _req: FastifyRequest,
   reply: FastifyReply
 ) {
-  // Fastify validation errors
+  /**
+   * Fastify schema validation errors
+   */
   if (
     typeof error === 'object' &&
     error !== null &&
@@ -19,18 +21,33 @@ export function errorHandler(
     });
   }
 
-  // Domain errors
+  /**
+   * Controlled application errors
+   */
   if (error instanceof AppError) {
+    // Log only 5xx AppErrors (noise control)
+    if (error.statusCode >= 500) {
+      reply.log.error(
+        { err: error.cause ?? error },
+        error.message
+      );
+    }
+
     return reply.status(error.statusCode).send({
       statusCode: error.statusCode,
+      code: error.code,
       error: error.message,
     });
   }
 
-  // Unknown errors
-  reply.log.error(error);
-  reply.status(500).send({
+  /**
+   * Unknown / programmer errors
+   */
+  reply.log.error({ err: error }, 'Unhandled error');
+
+  return reply.status(500).send({
     statusCode: 500,
+    code: 'INTERNAL_SERVER_ERROR',
     error: 'Internal Server Error',
   });
 }

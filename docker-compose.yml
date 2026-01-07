@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  get-event-metadata:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: get-event-metadata
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      AWS_REGION: us-east-1
+    restart: unless-stopped

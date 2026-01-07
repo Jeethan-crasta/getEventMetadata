@@ -1,22 +1,25 @@
 import Fastify from 'fastify';
-import { eventMetadataRoute } from './routes/eventMetadata.route';
+import { eventMetadataRoute } from './routes/eventMetadataRoute';
 import { errorHandler } from './errors/errorHandler';
 
 export function buildApp() {
   const app = Fastify({
-    logger: true,
+    logger: {
+      level: 'info',
+    },
   });
 
+  // Global error handler (register early)
+  app.setErrorHandler(errorHandler);
+
   // Health check
-  app.get('/health', async () => {
+  app.get('/health', async (request) => {
+    request.log.debug('Health check requested');
     return { status: 'ok' };
   });
 
   // Routes
   app.register(eventMetadataRoute);
-
-  // Global error handler
-  app.setErrorHandler(errorHandler);
 
   return app;
 }
