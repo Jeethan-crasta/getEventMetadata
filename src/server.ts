@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { buildApp } from './app';
+import { ProtobufService } from './services/protobufService';
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = '0.0.0.0';
@@ -8,6 +9,7 @@ const app = buildApp();
 
 async function start() {
   try {
+    await ProtobufService.init();
     await app.listen({ port: PORT, host: HOST });
     app.log.info({ port: PORT }, 'Server started');
   } catch (err) {

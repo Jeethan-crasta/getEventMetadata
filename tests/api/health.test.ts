@@ -9,7 +9,7 @@ describe('GET /health', () => {
   });
 
   it('returns ok', async () => {
-    await app.ready(); // 🔑 VERY IMPORTANT
+    await app.ready(); //
 
     const res = await app.inject({
       method: 'GET',

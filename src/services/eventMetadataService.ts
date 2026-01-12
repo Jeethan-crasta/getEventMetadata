@@ -11,7 +11,6 @@ import { AppError } from '../errors/AppError';
 
 export class EventMetadataService {
   private s3 = new S3Service();
-  private proto = new ProtobufService();
 
   async process(params: EventMetadataRequest) {
     const {
@@ -24,7 +23,8 @@ export class EventMetadataService {
     } = params;
 
     let buffer: Buffer;
-
+    
+     // Fetch from S3
     try {
       buffer = await this.s3.getObject(bucket, url, region);
     } catch (err) {
@@ -38,6 +38,7 @@ export class EventMetadataService {
 
     let decodedBuffer: Buffer;
 
+    // Inflate
     try {
       decodedBuffer = await maybeInflate(buffer, url);
     } catch (err) {
@@ -51,8 +52,9 @@ export class EventMetadataService {
 
     let message: unknown;
 
+    //  Decode protobuf 
     try {
-      message = await this.proto.decode(decodedBuffer);
+      message = ProtobufService.decode(decodedBuffer);
     } catch (err) {
       throw new AppError(
         'Failed to decode protobuf metadata',
@@ -62,6 +64,8 @@ export class EventMetadataService {
       );
     }
 
+
+    // Extract requested data
     return {
       ...(options?.includeInertialSensorData && {
         accelerometerData: extractAccelerometerData(

@@ -1,45 +1,56 @@
 import protobuf from 'protobufjs';
+import path from 'path';
 import { AppError } from '../errors/AppError';
 
+let EventMetadataType: protobuf.Type | null = null;
+let initialized = false;
+
 export class ProtobufService {
-  private rootPromise = protobuf.load('src/schema/EventMetadata.proto');
-
-  async decode(buffer: Buffer) {
-    let root;
+ 
+  static async init(): Promise<void> {
+    if (initialized) return;
 
     try {
-      root = await this.rootPromise;
+      const protoPath = path.resolve(
+        process.cwd(),
+        'src/schema/EventMetadata.proto'
+      );
+
+      const root = await protobuf.load(protoPath);
+      const type = root.lookupType('EventMetadata');
+
+      if (!type) {
+        throw new Error('EventMetadata type not found in proto schema');
+      }
+
+      EventMetadataType = type;
+      initialized = true;
+
+      console.log('Protobuf schema initialized');
     } catch (err) {
+      console.error('Failed to initialize protobuf schema', err);
+      throw err;
+    }
+  }
+
+ 
+  static decode(buffer: Buffer) {
+    if (!initialized || !EventMetadataType) {
       throw new AppError(
-        'Failed to load protobuf schema',
+        'PROTOBUF_NOT_INITIALIZED',
         500,
-        'PROTOBUF_SCHEMA_LOAD_FAILED',
-        err
+        'Protobuf schema not initialized'
       );
     }
 
-    let EventMetadata;
+    const decodedMessage = EventMetadataType.decode(buffer);
 
-    try {
-      EventMetadata = root.lookupType('EventMetadata');
-    } catch (err) {
-      throw new AppError(
-        'EventMetadata type not found in protobuf schema',
-        500,
-        'PROTOBUF_TYPE_NOT_FOUND',
-        err
-      );
-    }
-
-    try {
-      return EventMetadata.decode(buffer);
-    } catch (err) {
-      throw new AppError(
-        'Invalid protobuf payload',
-        400,
-        'PROTOBUF_DECODE_FAILED',
-        err
-      );
-    }
+    return EventMetadataType.toObject(decodedMessage, {
+      longs: Number,
+      enums: String,
+      defaults: true,
+      arrays: true,
+      objects: true,
+    });
   }
 }
