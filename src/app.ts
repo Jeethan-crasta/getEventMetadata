@@ -7,6 +7,8 @@ export function buildApp() {
     logger: {
       level: 'info',
     },
+    connectionTimeout: 10_000, // TCP handshake timeout
+    requestTimeout: 15_000,    // total request time
   });
 
   // Global error handler (register early)

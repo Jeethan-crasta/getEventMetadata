@@ -12,9 +12,9 @@ export class ProtobufService {
 
     try {
       const protoPath = path.resolve(
-        process.cwd(),
-        'src/schema/EventMetadata.proto'
-      );
+  __dirname,
+  '../schema/EventMetadata.proto'
+);
 
       const root = await protobuf.load(protoPath);
       const type = root.lookupType('EventMetadata');
