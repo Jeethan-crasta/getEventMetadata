@@ -1,0 +1,27 @@
+config:
+  target: "http://localhost:3000"
+
+  phases:
+    - name: "100 request burst"
+      duration: 1
+      arrivalCount: 100
+
+  defaults:
+    headers:
+      content-type: "application/json"
+
+  timeout: 60000
+
+scenarios:
+  - name: "Burst event-metadata"
+    flow:
+      - post:
+          url: "/event-metadata"
+          json:
+            bucket: "lmdevdatabucketlm"
+            url: "test_protobuf/new_test_event_metadata.pbf"
+            region: "ap-south-1"
+            options:
+              includePathInfo: true
+              includeAnnotationsMetadata: true
+              includeInertialSensorData: true

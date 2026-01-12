@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "ts-node src/server.ts",
     "build": "tsc && mkdir -p dist/schema && cp -R src/schema/* dist/schema/",
@@ -33,6 +36,7 @@
     "@types/node": "^25.0.3",
     "@types/protobufjs": "^6.0.0",
     "@vitest/coverage-v8": "^4.0.16",
+    "artillery": "^2.0.27",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
