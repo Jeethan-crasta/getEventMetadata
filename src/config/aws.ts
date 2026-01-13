@@ -1,13 +1,22 @@
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
-import { env } from './env';
+import { S3Client } from '@aws-sdk/client-s3';
+import { NodeHttpHandler } from '@smithy/node-http-handler';
 
-export function createS3Client(region: string): S3Client {
-  const config: S3ClientConfig = {
-    region,
-    maxAttempts: 3,
-  };
+const s3Clients = new Map<string, S3Client>();
 
-  console.info('[AWS] Creating S3 client', { region });
+export function getS3Client(region: string): S3Client {
+  if (!s3Clients.has(region)) {
+    s3Clients.set(
+      region,
+      new S3Client({
+        region,
+        maxAttempts: 3,
+        requestHandler: new NodeHttpHandler({
+          connectionTimeout: 3000,
+          socketTimeout: 5000,
+        }),
+      })
+    );
+  }
 
-  return new S3Client(config);
+  return s3Clients.get(region)!;
 }
