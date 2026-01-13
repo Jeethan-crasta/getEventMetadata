@@ -11,8 +11,8 @@ export function getS3Client(region: string): S3Client {
         region,
         maxAttempts: 3,
         requestHandler: new NodeHttpHandler({
-          connectionTimeout: 3000,
-          socketTimeout: 5000,
+          connectionTimeout: 5_000,
+          socketTimeout: 20_000,
         }),
       })
     );

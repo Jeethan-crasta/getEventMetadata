@@ -1,51 +1,54 @@
+// services/protobufService.ts
 import protobuf from 'protobufjs';
 import path from 'path';
 import { AppError } from '../errors/AppError';
 
-let EventMetadataType: protobuf.Type | null = null;
-let initialized = false;
-
 export class ProtobufService {
- 
-  static async init(): Promise<void> {
-    if (initialized) return;
+  private static eventMetadataType: protobuf.Type;
+  private static initPromise: Promise<void> | null = null;
 
-    try {
-      const protoPath = path.resolve(
-  __dirname,
-  '../schema/EventMetadata.proto'
-);
+  static init(): Promise<void> {
+    if (this.initPromise) return this.initPromise;
 
-      const root = await protobuf.load(protoPath);
-      const type = root.lookupType('EventMetadata');
+    this.initPromise = (async () => {
+      try {
+        const protoPath = path.join(
+          __dirname,'..','schema','EventMetadata.proto'
+        );
 
-      if (!type) {
-        throw new Error('EventMetadata type not found in proto schema');
+        const root = await protobuf.load(protoPath);
+        const type = root.lookupType('EventMetadata');
+
+        if (!type) {
+          throw new Error('EventMetadata type not found');
+        }
+
+        this.eventMetadataType = type;
+      } catch (err) {
+        throw new AppError(
+          'PROTOBUF_INIT_FAILED',
+          500,
+          'Failed to initialize protobuf schema',
+          err
+        );
       }
+    })();
 
-      EventMetadataType = type;
-      initialized = true;
-
-      console.log('Protobuf schema initialized');
-    } catch (err) {
-      console.error('Failed to initialize protobuf schema', err);
-      throw err;
-    }
+    return this.initPromise;
   }
 
- 
   static decode(buffer: Buffer) {
-    if (!initialized || !EventMetadataType) {
+    if (!this.eventMetadataType) {
       throw new AppError(
         'PROTOBUF_NOT_INITIALIZED',
         500,
-        'Protobuf schema not initialized'
+        'ProtobufService.init() was not called'
       );
     }
 
-    const decodedMessage = EventMetadataType.decode(buffer);
+    const decoded = this.eventMetadataType.decode(buffer);
 
-    return EventMetadataType.toObject(decodedMessage, {
+    return this.eventMetadataType.toObject(decoded, {
       longs: Number,
       enums: String,
       defaults: true,
