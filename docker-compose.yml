@@ -5,11 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: get-event-metadata
     ports:
       - "3000:3000"
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      AWS_REGION: us-east-1
+    env_file:
+      - .env
     restart: unless-stopped

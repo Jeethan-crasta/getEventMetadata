@@ -1,27 +1,22 @@
-# Use official Node LTS
 FROM node:20-alpine
 
-# Create app directory
 WORKDIR /app
 
-# Copy only package files first (better layer caching)
-COPY package*.json ./
+# Copy manifests
+COPY package*.json tsconfig.json ./
 
-# Install dependencies
-RUN npm install
+# Install ALL deps (needed for build)
+RUN npm ci
 
-# Copy source code
-COPY . .
+# Copy source
+COPY src ./src
 
-# Build TypeScript (keeps source maps)
+# Build TypeScript
 RUN npm run build
 
-# Environment
-ENV NODE_ENV=production
-ENV PORT=3000
+# Remove devDependencies AFTER build
+RUN npm prune --omit=dev
 
-# Expose app port
 EXPOSE 3000
 
-# Run compiled app
 CMD ["node", "dist/server.js"]
