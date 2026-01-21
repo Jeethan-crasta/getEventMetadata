@@ -13,7 +13,7 @@ export class ProtobufService {
     this.initPromise = (async () => {
       try {
         const protoPath = path.join(
-          __dirname,'..','schema','EventMetadata.proto'
+          __dirname,'..','proto','EventMetadata.proto'
         );
 
         const root = await protobuf.load(protoPath);

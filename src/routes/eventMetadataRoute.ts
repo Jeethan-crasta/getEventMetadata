@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { eventMetadataSchema } from '../fastifyschema/eventMetadataSchema';
+import { eventMetadataSchema } from '../schema/eventMetadataSchema';
 import { eventMetadataController } from '../controller/eventMetadataController';
 
 export async function eventMetadataRoute(app: FastifyInstance) {
