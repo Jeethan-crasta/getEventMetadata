@@ -19,7 +19,7 @@ scenarios:
           url: "/event-metadata"
           json:
             bucket: "lmdevdatabucketlm"
-            url: "test_protobuf/new_test_event_metadata.pbf"
+            url: "test_protobuf/drowsy_t_6SS4UIHNLYI7BAAAZ4JIDYDS6A_GrOuO_0008_999DT.pbf.zlib"
             region: "ap-south-1"
             options:
               includePathInfo: true

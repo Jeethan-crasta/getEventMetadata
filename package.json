@@ -9,21 +9,11 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "build": "tsc && mkdir -p dist/schema && cp -R src/schema/* dist/schema/",
-    "start": "node dist/server.js",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jeethan-crasta/getEventMetadata.git"
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Jeethan-crasta/getEventMetadata/issues"
-  },
-  "homepage": "https://github.com/Jeethan-crasta/getEventMetadata#readme",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.962.0",
     "dotenv": "^17.2.3",
