@@ -1,9 +1,9 @@
 import { S3Service } from './s3Service';
 import { ProtobufService } from './protobufService';
 
-import { extractAccelerometerData } from '../domain/extractors/accelerometerExtractor';
-import { extractAnnotationsMetadata } from '../domain/extractors/annotationsExtractor';
-import { extractPathInfo } from '../domain/extractors/pathExtractor';
+import { extractAccelerometerData } from '../Extractor/extractors/accelerometerExtractor';
+import { extractAnnotationsMetadata } from '../Extractor/extractors/annotationsExtractor';
+import { extractPathInfo } from '../Extractor/extractors/pathExtractor';
 
 import { maybeInflate } from '../utils/inflate';
 import { EventMetadataRequest } from '../types/eventMetadata';
