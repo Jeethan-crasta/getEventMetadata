@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "ts-node src/server.ts",
-    "build": "tsc && mkdir -p dist/schema && cp -R src/schema/* dist/schema/",
+    "build": "tsc && mkdir -p dist/proto && cp -R src/proto/* dist/proto/.",
     "start": "node dist/server.js"
   },
   "keywords": [],
