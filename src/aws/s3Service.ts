@@ -1,5 +1,5 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { getS3Client } from '../config/aws';
+import { getS3Client } from '../aws/aws';
 import { AppError } from '../errors/AppError';
 
 export class S3Service {

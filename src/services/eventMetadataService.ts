@@ -1,4 +1,4 @@
-import { S3Service } from './s3Service';
+import { S3Service } from '../aws/s3Service';
 import { ProtobufService } from './protobufService';
 
 import { extractAccelerometerData } from '../Extractor/extractors/accelerometerExtractor';
