@@ -1,12 +1,10 @@
 // src/services/imageService.ts
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import Sharp from 'sharp';
 import { ResizeRequest } from '../types/resize';
-import { AppError } from '../errors/AppError';
-import { S3Service } from '../aws/s3Service';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { getImageObject } from '../aws/s3Adapters';
 import { getS3Client } from '../aws/aws';
-
-const s3Service = new S3Service();
+import { AppError } from '../errors/AppError';
 
 export async function resizeAndUploadImage(
   payload: ResizeRequest
@@ -14,52 +12,43 @@ export async function resizeAndUploadImage(
   const { source, target } = payload;
 
   try {
-    /**
-     * 1. Fetch source image using shared S3Service
-     */
-    const sourceBuffer = await s3Service.getObject(
+    const sourceObject = await getImageObject(
       source.bucket,
       source.key,
       source.region
     );
 
-    /**
-     * 2. Resize image
-     */
-    const resizedBuffer = await Sharp(sourceBuffer)
+    if (!sourceObject?.body) {
+      throw new AppError(
+        'Source image not found or empty',
+        404,
+        'IMAGE_SOURCE_NOT_FOUND'
+      );
+    }
+
+    const resizedBuffer = await Sharp(sourceObject.body)
       .resize(target.width)
       .withMetadata()
       .toFormat('jpg')
       .toBuffer();
 
-    /**
-     * 3. Upload resized image
-     */
-    const targetClient = getS3Client(target.region);
-
-    await targetClient.send(
+    await getS3Client(target.region).send(
       new PutObjectCommand({
         Bucket: target.bucket,
         Key: target.key,
         Body: resizedBuffer,
-        ContentType: 'image/jpeg',
+        ContentType: 'image/jpg',
       })
     );
   } catch (err) {
-    /**
-     * Preserve AppErrors
-     */
     if (err instanceof AppError) {
-      throw err;
+      throw err; 
     }
 
-    /**
-     * Wrap unknown errors
-     */
     throw new AppError(
       'Failed to resize and upload image',
       500,
-      'IMAGE_RESIZE_FAILED',
+      'IMAGE_PROCESSING_FAILED',
       err
     );
   }

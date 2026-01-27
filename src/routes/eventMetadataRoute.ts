@@ -1,26 +1,21 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import { eventMetadataSchema } from '../schema/eventMetadataSchema';
-import { EventMetadataService } from '../services/eventMetadataService';
+import { processEventMetadata } from '../services/eventMetadataService';
 import { EventMetadataRequest } from '../types/eventMetadata';
-
-const service = new EventMetadataService();
 
 export async function eventMetadataRoute(app: FastifyInstance) {
   app.log.info('Route registered: POST /event-metadata');
 
-  app.post(
-    '/event-metadata',
+  app.post<{ Body: EventMetadataRequest }>(
+    '/event_metadata',
     { schema: eventMetadataSchema },
-    async (
-      request: FastifyRequest<{ Body: EventMetadataRequest }>,
-      reply: FastifyReply
-    ) => {
+    async (request, reply) => {
       request.log.info(
         { body: request.body },
         'Processing /event-metadata request'
       );
 
-      const result = await service.process(request.body);
+      const result = await processEventMetadata(request.body);
       return reply.code(200).send(result);
     }
   );

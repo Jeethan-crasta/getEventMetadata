@@ -11,3 +11,10 @@ export interface ResizeRequest {
     width: number;
   };
 }
+
+export interface ImageObject {
+  body: Buffer;
+  metadata: Record<string, string>;
+  contentType?: string;
+  contentLength?: number;
+}

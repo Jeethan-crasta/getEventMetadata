@@ -1,19 +1,8 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { AppError } from './AppError';
 
-export function errorHandler(
-  error: FastifyError | AppError,
-  _req: FastifyRequest,
-  reply: FastifyReply
-) {
-  /**
-   * Fastify schema validation errors
-   */
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'validation' in error
-  ) {
+export function errorHandler(error: FastifyError | AppError,_req: FastifyRequest,reply: FastifyReply) {
+  if (typeof error === 'object' && error !== null && 'validation' in error) {
     return reply.status(400).send({
       statusCode: 400,
       error: 'Bad Request',
@@ -21,11 +10,8 @@ export function errorHandler(
     });
   }
 
-  /**
-   * Controlled application errors
-   */
   if (error instanceof AppError) {
-    // Log only 5xx AppErrors (noise control)
+    
     if (error.statusCode >= 500) {
       reply.log.error(
         { err: error.cause ?? error },
@@ -40,9 +26,6 @@ export function errorHandler(
     });
   }
 
-  /**
-   * Unknown / programmer errors
-   */
   reply.log.error({ err: error }, 'Unhandled error');
 
   return reply.status(500).send({

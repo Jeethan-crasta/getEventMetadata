@@ -1,4 +1,5 @@
-export const resizeSchema = {
+import { FastifySchema } from 'fastify';
+export const resizeSchema : FastifySchema = {
   body: {
     type: 'object',
     required: ['source', 'target'],

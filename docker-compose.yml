@@ -1,12 +1,17 @@
 version: "3.8"
 
 services:
-  get-event-metadata:
+  image-compress:
     build:
       context: .
       dockerfile: Dockerfile
+    image: image-compress
+    container_name: image-compress
     ports:
-      - "3000:3000"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     env_file:
       - .env
+    environment:
+      AWS_REGION: us-east-1
+      AWS_EC2_METADATA_DISABLED: "true"
     restart: unless-stopped

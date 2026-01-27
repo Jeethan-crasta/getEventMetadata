@@ -2,20 +2,26 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy manifests
+RUN apk add --no-cache \
+  python3 \
+  make \
+  g++ \
+  vips
+
+
 COPY package*.json tsconfig.json ./
 
-# Install ALL deps (needed for build)
+
 RUN npm ci
 
-# Copy source
+
 COPY src ./src
 
-# Build TypeScript
 RUN npm run build
 
-# Remove devDependencies AFTER build
 RUN npm prune --omit=dev
+
+ENV PORT=3000
 
 EXPOSE 3000
 

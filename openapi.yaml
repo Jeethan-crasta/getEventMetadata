@@ -1,0 +1,181 @@
+openapi: 3.0.3
+info:
+  title: Lambda Media API
+  description: Fastify-based APIs for image resize, trip path generation, and event metadata
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /v1/lambda/resize:
+    post:
+      summary: Resize an image from S3
+      operationId: resizeImage
+      tags:
+        - Lambda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImageResizeRequest"
+            example:
+              source:
+                bucket: "source-bucket"
+                key: "images/original.jpg"
+                region: "us-east-1"
+              target:
+                bucket: "target-bucket"
+                key: "images/resized.jpg"
+                region: "us-east-1"
+                width: 400
+      responses:
+        "200":
+          description: Image resized successfully
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /v1/lambda/get_path:
+    post:
+      summary: Generate trip path from S3 data
+      operationId: getTripPath
+      tags:
+        - Lambda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetTripUrlRequest"
+            example:
+              s3UrlListData:
+                - region: "us-east-1"
+                  bucket: "trip-bucket"
+                  key: "trips/trip1.json"
+              responseFormat: "POLYLINE"
+      responses:
+        "200":
+          description: Trip path generated
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /v1/lambda/event_metadata:
+    post:
+      summary: Extract event metadata
+      operationId: extractEventMetadata
+      tags:
+        - Lambda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventMetadataRequest"
+            example:
+              bucket: "event-bucket"
+              url: "s3://event-bucket/events/event1"
+              region: "us-east-1"
+              options:
+                includePathInfo: true
+                includeAnnotationsMetadata: true
+                includeInertialSensorData: true
+      responses:
+        "200":
+          description: Event metadata extracted
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    EventMetadataRequest:
+      type: object
+      required:
+        - bucket
+        - url
+        - region
+      properties:
+        bucket:
+          type: string
+        url:
+          type: string
+        region:
+          type: string
+        options:
+          type: object
+          properties:
+            includePathInfo:
+              type: boolean
+            includeAnnotationsMetadata:
+              type: boolean
+            includeInertialSensorData:
+              type: boolean
+
+    GetTripUrlRequest:
+      type: object
+      required:
+        - s3UrlListData
+        - responseFormat
+      properties:
+        s3UrlListData:
+          type: array
+          items:
+            type: object
+            required:
+              - region
+              - bucket
+              - key
+            properties:
+              region:
+                type: string
+              bucket:
+                type: string
+              key:
+                type: string
+        responseFormat:
+          type: string
+          enum:
+            - POLYLINE
+            - GEOJSON
+
+    ImageResizeRequest:
+      type: object
+      required:
+        - source
+        - target
+      properties:
+        source:
+          type: object
+          required:
+            - bucket
+            - key
+            - region
+          properties:
+            bucket:
+              type: string
+            key:
+              type: string
+            region:
+              type: string
+        target:
+          type: object
+          required:
+            - bucket
+            - key
+            - region
+            - width
+          properties:
+            bucket:
+              type: string
+            key:
+              type: string
+            region:
+              type: string
+            width:
+              type: number

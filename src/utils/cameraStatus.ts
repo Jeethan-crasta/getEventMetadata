@@ -1,18 +1,6 @@
-export type CameraStatus =
-  | 'CONNECTED'
-  | 'ATTEMPTING_TO_CONNECT'
-  | 'DISCONNECTED'
-  | 'UNKNOWN';
-
-export function mapCameraStatus(status: number): CameraStatus {
-  switch (status) {
-    case 1:
-      return 'CONNECTED';
-    case 0:
-      return 'ATTEMPTING_TO_CONNECT';
-    case -1:
-      return 'DISCONNECTED';
-    default:
-      return 'UNKNOWN';
-  }
+export function getCameraStatus(connectionStatus?: number): string {
+  if (connectionStatus === 1) return 'CONNECTED';
+  if (connectionStatus === 0) return 'ATTEMPTING_TO_CONNECT';
+  if (connectionStatus === -1) return 'DISCONNECTED';
+  return 'UNKNOWN';
 }

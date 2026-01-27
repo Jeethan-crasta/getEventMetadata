@@ -1,4 +1,3 @@
-// src/routes/resize.ts
 import { FastifyInstance } from 'fastify';
 import { resizeAndUploadImage } from '../services/imageService';
 import { resizeSchema } from '../schema/resizeSchema';

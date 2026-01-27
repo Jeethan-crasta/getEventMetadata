@@ -1,31 +1,27 @@
 import Fastify, { FastifyInstance } from 'fastify';
+import { env } from './config/env';
 import { eventMetadataRoute } from './routes/eventMetadataRoute';
 import { errorHandler } from './errors/errorHandler';
+import tripRoutes from './routes/getTripRouteUrl';
+import { resizeRoute } from './routes/imageResizeRoute';
 
 export function buildApp(): FastifyInstance {
   const app = Fastify({
     logger: {
-      level: process.env.LOG_LEVEL ?? 'info',
+      level: env.LOG_LEVEL,
     },
-
-    // Network safety
-    connectionTimeout: 10_000, // TCP handshake timeout
-    requestTimeout: 15_000,    // total request lifecycle
-    keepAliveTimeout: 60_000,  // keep-alive sockets
   });
 
-  // Global error handler (register early)
   app.setErrorHandler(errorHandler);
 
-  // Health check
   app.get('/health', async (request) => {
-    request.log.debug('Health check requested');
+    app.log.info(`Health check requested from ${request.ip}`);
     return { status: 'ok' };
   });
 
-  // Routes
-  app.register(eventMetadataRoute);
-
+  app.register(eventMetadataRoute,{prefix:'/v1/lambda'});
+  app.register(tripRoutes, { prefix: '/v1/lambda' });
+  app.register(resizeRoute,{prefix: '/v1/lambda'});
 
   app.addHook('onClose', async (instance) => {
     instance.log.info('Fastify instance shutting down');
