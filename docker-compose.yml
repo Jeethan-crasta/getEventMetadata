@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  image-compress:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
-    image: image-compress
-    container_name: image-compress
+    image: api
+    container_name: api
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     env_file:
