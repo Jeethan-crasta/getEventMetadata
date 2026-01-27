@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "build": "tsc && mkdir -p dist/proto && cp -R src/proto/* dist/proto/.",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.974.0",
     "@mapbox/polyline": "^1.2.1",
+    "@types/supertest": "^6.0.3",
     "dotenv": "^17.2.3",
     "fastify": "^5.7.1",
     "long": "^5.3.2",
@@ -31,7 +33,9 @@
     "@types/protobufjs": "^6.0.0",
     "@vitest/coverage-v8": "^4.0.16",
     "artillery": "^2.0.27",
+    "aws-sdk-client-mock": "^4.1.0",
     "jest": "^30.2.0",
+    "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
