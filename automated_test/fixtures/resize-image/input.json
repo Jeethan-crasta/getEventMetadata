@@ -1,0 +1,13 @@
+{
+  "source": {
+    "bucket": "lmdevdatabucketlm",
+    "key": "image-compress-test/orig.jpg",
+    "region": "ap-south-1"
+  },
+  "target": {
+    "bucket": "lmdevdatabucketlm",
+    "key": "image-compress-test/result.jpg",
+    "region": "ap-south-1",
+    "width": 400
+  }
+}

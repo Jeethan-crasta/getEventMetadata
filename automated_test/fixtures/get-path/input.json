@@ -1,0 +1,10 @@
+{
+  "s3UrlListData": [
+    {
+      "region": "ap-south-1",
+      "bucket": "lmdevdatabucketlm",
+      "key": "test_protobuf/route_t_YPIXLYHWPMI7BAAAZ2NRY44FSI_qOuiL_0001_S0zne.pbf"
+    }
+  ],
+  "responseFormat": "POLYLINE"
+}
