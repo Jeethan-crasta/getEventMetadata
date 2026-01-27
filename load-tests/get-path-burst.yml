@@ -1,0 +1,25 @@
+config:
+  target: "http://localhost:3000"
+
+  phases:
+    - name: "100 request burst"
+      duration: 1
+      arrivalCount: 100
+
+  defaults:
+    headers:
+      content-type: "application/json"
+
+  timeout: 60000
+
+scenarios:
+  - name: "Burst get_path"
+    flow:
+      - post:
+          url: "/api/v1/lambda/get_path"
+          json:
+            s3UrlListData:
+              - region: "ap-south-1"
+                bucket: "lmdevdatabucketlm"
+                key: "test_protobuf/route_t_YPIXLYHWPMI7BAAAZ2NRY44FSI_qOuiL_0001_S0zne.pbf"
+            responseFormat: "POLYLINE"

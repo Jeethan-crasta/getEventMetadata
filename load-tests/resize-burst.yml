@@ -1,0 +1,29 @@
+config:
+  target: "http://localhost:3000"
+
+  phases:
+    - name: "100 request burst"
+      duration: 1
+      arrivalCount: 100
+
+  defaults:
+    headers:
+      content-type: "application/json"
+
+  timeout: 60000
+
+scenarios:
+  - name: "Burst resize image"
+    flow:
+      - post:
+          url: "/api/v1/lambda/resize"
+          json:
+            source:
+              bucket: "lmdevdatabucketlm"
+              key: "image-compress-test/orig.jpg"
+              region: "ap-south-1"
+            target:
+              bucket: "lmdevdatabucketlm"
+              key: "image-compress-test/resized.jpg"
+              region: "ap-south-1"
+              width: 400
