@@ -1,43 +1,64 @@
-import { FastifySchema } from 'fastify';
+import { FastifySchema } from "fastify";
 
 export const resizeSchema: FastifySchema = {
   body: {
-    type: 'object',
-    required: ['source', 'target'],
+    type: "object",
+    required: ["source", "target"],
+    additionalProperties: false,
     properties: {
       source: {
-        type: 'object',
-        required: ['bucket', 'key', 'region'],
+        type: "object",
+        required: ["bucket", "key", "region"],
+        additionalProperties: false,
         properties: {
-          bucket: { type: 'string' },
-          key: { type: 'string' },
-          region: { type: 'string' },
-        },
+          bucket: {
+            type: "string",
+            minLength: 1
+          },
+          key: {
+            type: "string",
+            minLength: 1
+          },
+          region: {
+            type: "string",
+            minLength: 1
+          }
+        }
       },
       target: {
-        type: 'object',
-        required: ['bucket', 'key', 'region', 'width'],
+        type: "object",
+        required: ["bucket", "key", "region", "width"],
+        additionalProperties: false,
         properties: {
-          bucket: { type: 'string' },
-          key: { type: 'string' },
-          region: { type: 'string' },
-          width: { type: 'integer' },
-        },
-      },
-    },
+          bucket: {
+            type: "string",
+            minLength: 1
+          },
+          key: {
+            type: "string",
+            minLength: 1
+          },
+          region: {
+            type: "string",
+            minLength: 1
+          },
+          width: {
+            type: "number",
+            minimum: 1
+          }
+        }
+      }
+    }
   },
-
   response: {
     200: {
-      type: 'object',
-      required: ['status', 'message'],
+      type: "object",
+      required: ["status", "message"],
+      additionalProperties: false,
       properties: {
-        status: { type: 'string', example: 'ok' },
-        message: {
-          type: 'string',
-          example: 'Image resized and uploaded successfully',
-        },
-      },
-    },
-  },
+        status: { type: "string" },
+        message: { type: "string" }
+      }
+    }
+  }
 };
