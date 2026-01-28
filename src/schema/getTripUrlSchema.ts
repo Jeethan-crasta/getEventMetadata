@@ -27,5 +27,55 @@ export const tripRequestSchema: FastifySchema = {
         description: 'Response format for route path'
       }
     }
+  },
+
+  response: {
+    200: {
+      type: 'object',
+      required: ['fullPathAvailable','routePathInfo'],
+      additionalProperties: false,
+      properties: {
+        fullPathAvailable: {
+          type: 'boolean'
+        },
+        
+        routePathInfo: {
+          type: 'array',
+          minItems: 1,
+          items: {
+            type: 'object',
+            required: [
+              'timeOfDay',
+              'timestampUTC',
+              'latitude',
+              'longitude',
+              'speed',
+              'bearing',
+              'accuracy',
+              'cameraConnectionState'
+            ],
+            additionalProperties: false,
+            properties: {
+              timeOfDay: { type: 'string' },
+              timestampUTC: { type: 'number' },
+              latitude: { type: 'number' },
+              longitude: { type: 'number' },
+              speed: { type: 'number' },
+              bearing: { type: 'number' },
+              accuracy: { type: 'number' },
+              cameraConnectionState: {
+                type: 'string',
+                enum: ['CONNECTED', 'DISCONNECTED']
+              }
+            }
+          }
+        },
+
+        polylinePathInfo: {
+          type: 'string',
+          description: 'Encoded polyline string. Present only when responseFormat is POLYLINE'
+        }
+      }
+    }
   }
 };

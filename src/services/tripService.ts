@@ -14,6 +14,7 @@ export async function getTripPath(params: TripRequest) {
   const { s3UrlListData, responseFormat } = params;
 
   const routePathInfo: RoutePoint[] = [];
+  let successfulFiles = 0;
 
   for (const s3Url of s3UrlListData) {
     const { bucket, key, region } = s3Url;
@@ -42,6 +43,7 @@ export async function getTripPath(params: TripRequest) {
           : decodeBinaryRoute(inflated, routefileVersion);
 
       if (decodedPoints?.length) {
+        successfulFiles++;
         routePathInfo.push(...decodedPoints);
       }
     } catch (err) {
@@ -59,6 +61,7 @@ export async function getTripPath(params: TripRequest) {
   }
 
   return {
+    fullPathAvailable: successfulFiles === s3UrlListData.length,
     routePathInfo,
     polylinePathInfo:
       responseFormat === 'POLYLINE'
