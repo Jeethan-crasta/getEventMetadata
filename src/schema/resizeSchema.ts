@@ -1,5 +1,6 @@
 import { FastifySchema } from 'fastify';
-export const resizeSchema : FastifySchema = {
+
+export const resizeSchema: FastifySchema = {
   body: {
     type: 'object',
     required: ['source', 'target'],
@@ -21,6 +22,20 @@ export const resizeSchema : FastifySchema = {
           key: { type: 'string' },
           region: { type: 'string' },
           width: { type: 'integer' },
+        },
+      },
+    },
+  },
+
+  response: {
+    200: {
+      type: 'object',
+      required: ['status', 'message'],
+      properties: {
+        status: { type: 'string', example: 'ok' },
+        message: {
+          type: 'string',
+          example: 'Image resized and uploaded successfully',
         },
       },
     },
