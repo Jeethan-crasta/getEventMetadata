@@ -16,7 +16,7 @@ scenarios:
   - name: "Burst get_path"
     flow:
       - post:
-          url: "/api/v1/lambda/get_path"
+          url: "/v1/lambda/get_path"
           json:
             s3UrlListData:
               - region: "ap-south-1"

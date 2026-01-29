@@ -16,7 +16,7 @@ scenarios:
   - name: "Burst event-metadata"
     flow:
       - post:
-          url: "/v1/lambda/event-metadata"
+          url: "/v1/lambda/event_metadata"
           json:
             bucket: "lmdevdatabucketlm"
             url: "test_protobuf/drowsy_t_6SS4UIHNLYI7BAAAZ4JIDYDS6A_GrOuO_0008_999DT.pbf.zlib"

@@ -16,7 +16,7 @@ scenarios:
   - name: "Burst resize image"
     flow:
       - post:
-          url: "/api/v1/lambda/resize"
+          url: "/v1/lambda/resize"
           json:
             source:
               bucket: "lmdevdatabucketlm"
