@@ -31,4 +31,42 @@ export const eventMetadataSchema: FastifySchema = {
       },
     },
   },
+
+
+  response: {
+    200: {
+      type: 'object',
+      required: ['accelerometerData', 'annotationsMetadata', 'pathInfo'],
+      properties: {
+        accelerometerData: {
+          type: 'array',
+          items: {
+            type: 'object',
+            additionalProperties: true,
+          },
+        },
+        annotationsMetadata: {
+          type: 'array',
+          items: {
+            type: 'object',
+            additionalProperties: true,
+          },
+        },
+        pathInfo: {
+          type: 'object',
+          required: ['routePathInfo'],
+          additionalProperties: true,
+          properties: {
+            routePathInfo: {
+              type: 'array',
+              items: {
+                type: 'object',
+                additionalProperties: true,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
