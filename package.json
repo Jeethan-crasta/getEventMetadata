@@ -18,29 +18,21 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.974.0",
     "@mapbox/polyline": "^1.2.1",
-    "@types/supertest": "^6.0.3",
-    "dotenv": "^17.2.3",
     "fastify": "^5.7.1",
     "long": "^5.3.2",
     "protobufjs": "^8.0.0",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
-    "@types/aws-sdk": "^2.7.4",
     "@types/axios": "^0.14.4",
     "@types/jest": "^30.0.0",
     "@types/mapbox__polyline": "^1.0.5",
     "@types/node": "^25.0.10",
     "@types/protobufjs": "^6.0.0",
-    "@vitest/coverage-v8": "^4.0.16",
-    "artillery": "^2.0.27",
-    "aws-sdk-client-mock": "^4.1.0",
     "axios": "^1.13.3",
     "jest": "^30.2.0",
-    "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "typescript": "^5.9.3"
   }
 }
