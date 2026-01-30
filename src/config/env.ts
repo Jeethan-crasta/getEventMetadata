@@ -15,7 +15,6 @@ export const env = {
 };
 
 function validateEnv() {
-  console.info('[ENV] Validating environment variables');
 
   if (Number.isNaN(env.SERVER_PORT)) {
     throw new AppError('SERVER_PORT must be a valid number', 500);
